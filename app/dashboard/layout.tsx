@@ -1,20 +1,3 @@
-// "use client"
-
-// import { Sidebar,SidebarBody,SidebarLink } from "@/components/Ui/sidebar";
-// import { useState } from "react";
-
-// export default function Dashboard() {
-//   const[open,setOpen] = useState(true);
-//   return (
-//     <>
-//     <h1>Dashboard</h1>
-//     <Sidebar open={open} setOpen={setOpen}>
-//         hi
-//     </Sidebar>
-//     </>
-//   );
-// }
-
 "use client";
 import React, { ReactNode, useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/Ui/Sidebar";
@@ -33,28 +16,44 @@ export default function layout({ children }: { children: ReactNode }) {
   const links = [
     {
       label: "Profile",
-      href: "#",
+      href: "/dashboard/profile",
       icon: (
         <IconUserBolt className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
-      label: "Dashboard",
-      href: "#",
+      label: "Resources",
+      href: "/dashboard/resources",
       icon: (
         <IconBrandTabler className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
-      label: "Settings",
-      href: "#",
+      label: "Dev Squads",
+      href: "/dashboard/devsquads",
       icon: (
         <IconSettings className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
-      label: "Logout",
-      href: "#",
+      label: "Project Collab",
+      href: "/dashboard/projectcollab",
+      icon: (
+        <IconArrowLeft className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+
+    {
+      label: "Dev Rooms",
+      href: "/dashboard/devrooms",
+      icon: (
+        <IconArrowLeft className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+
+    {
+      label: "Dev Jobs",
+      href: "/dashboard/devjobs",
       icon: (
         <IconArrowLeft className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
