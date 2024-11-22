@@ -11,6 +11,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { SessionProvider } from "next-auth/react";
 
 export default function layout({ children }: { children: ReactNode }) {
   const links = [
@@ -97,7 +98,7 @@ export default function layout({ children }: { children: ReactNode }) {
           </div>
         </SidebarBody>
       </Sidebar>
-      {children}
+      <SessionProvider>{children}</SessionProvider>
     </div>
   );
 }

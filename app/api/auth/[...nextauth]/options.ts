@@ -4,19 +4,19 @@ import Google from "next-auth/providers/google";
 export const authOptions = {
   providers: [
     Google({
-      clientId: "",
-      clientSecret: "",
+      clientId:process.env.GOOGLE_CLIENT_ID ?? "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET ??"",
     }),
   ],
 
-  secret: process.env.NEXTAUTH_SECRET!,
+  secret: process.env.NEXTAUTH_SECRET ?? "secret",
   session: {
     strategy: "jwt",
   },
   callbacks: {
     async signIn({ account, profile }) {
       try {
-        const user = prisma.user.findUnique({
+        const user = await prisma.user.findUnique({
           where: {
             email: profile?.email,
           },

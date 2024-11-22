@@ -1,16 +1,39 @@
-import { cn } from "@/lib/utils";
-import React from "react";
+"use client";
+import { cn, NEXTURL } from "@/lib/utils";
+import React, { useState } from "react";
 import {
   IconClipboardCopy,
   IconFileBroken,
   IconSignature,
   IconTableColumn,
 } from "@tabler/icons-react";
+import { useSession } from "next-auth/react";
 
 export default function profile() {
+  const session = useSession();
+
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [email, setEmail] = useState("");
+
+  async function fetchdata() {
+    const response = await fetch(`/api/user`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    console.log("the response is :  ", data);
+  }
+
+  console.log("session : client : ", session);
+
   return (
     <div className="flex flex-1">
       <div className="p-2 md:p-10 rounded-tl-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 flex flex-col gap-2 flex-1 w-full h-full">
+        <button onClick={() => fetchdata()}>Fetch data</button>
         <div
           className={cn(
             "row-span-1 text-2xl w-80 rounded-xl group/bento hover:shadow-xl transition duration-200 shadow-input dark:shadow-none p-4 dark:bg-neutral-900 dark:border-white/[0.2] bg-white border border-transparent h-[400px]  space-y-4 "
