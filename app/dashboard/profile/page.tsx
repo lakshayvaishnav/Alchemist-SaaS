@@ -1,6 +1,6 @@
 "use client";
 import { cn, NEXTURL } from "@/lib/utils";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   IconClipboardCopy,
   IconFileBroken,
@@ -12,10 +12,17 @@ import { useSession } from "next-auth/react";
 export default function profile() {
   const session = useSession();
 
+  if (!session) {
+    return <h1>Pleaase sign in bro</h1>;
+  }
+
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
 
+  useEffect(() => {
+    fetchdata();
+  }, []);
   async function fetchdata() {
     const response = await fetch(`/api/user`, {
       method: "GET",
@@ -25,15 +32,31 @@ export default function profile() {
     });
 
     const data = await response.json();
-    console.log("the response is :  ", data);
+
+    setFirstname(data.user.name.split(" ")[0]);
+    setLastname(data.user.name.split(" ")[1]);
+    setEmail(data.user.email);
   }
 
-  console.log("session : client : ", session);
+  async function updateData() {
+    const data = await fetch("/api/user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        firstname: firstname,
+        lastname: lastname,
+        email: email,
+      }),
+    });
+    const response = await data.json();
+    console.log("the response for updating the user : ", data);
+  }
 
   return (
     <div className="flex flex-1">
       <div className="p-2 md:p-10 rounded-tl-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 flex flex-col gap-2 flex-1 w-full h-full">
-        <button onClick={() => fetchdata()}>Fetch data</button>
         <div
           className={cn(
             "row-span-1 text-2xl w-80 rounded-xl group/bento hover:shadow-xl transition duration-200 shadow-input dark:shadow-none p-4 dark:bg-neutral-900 dark:border-white/[0.2] bg-white border border-transparent h-[400px]  space-y-4 "
@@ -48,6 +71,8 @@ export default function profile() {
             <div className=" flex flex-col gap-2">
               <label>First Name</label>
               <input
+                value={firstname}
+                onChange={(e) => setFirstname(e.target.value)}
                 className="w-full mb-3 bg-neutral-950 h-6 p-4 rounded-lg focus:outline-none "
                 type="text"
               />
@@ -55,6 +80,8 @@ export default function profile() {
             <div className=" flex flex-col gap-2">
               <label>Last Name</label>
               <input
+                value={lastname}
+                onChange={(e) => setLastname(e.target.value)}
                 className="w-full mb-3 bg-neutral-950 h-6 p-4 rounded-lg focus:outline-none "
                 type="text"
               />
@@ -63,12 +90,14 @@ export default function profile() {
             <div className=" flex flex-col gap-2">
               <label>Email</label>
               <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full mb-3 bg-neutral-950 h-6 p-4 rounded-lg focus:outline-none "
                 type="email"
               />
             </div>
           </div>
-          <button className="px-8 py-0.5  border-2 border-black hover:scale-105 dark:border-white uppercase bg-white text-black transition duration-200 text-sm shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)] ">
+          <button onClick={()=> updateData()} className="px-8 py-0.5  border-2 border-black hover:scale-105 dark:border-white uppercase bg-white text-black transition duration-200 text-sm shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)] ">
             Update Settings
           </button>
         </div>

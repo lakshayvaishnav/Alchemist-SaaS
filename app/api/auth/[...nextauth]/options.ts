@@ -28,9 +28,7 @@ export const authOptions = {
               name: profile?.name!,
             },
           });
-          console.log("user info from authoptions : ", newUser);
         }
-        console.log("older user info : ", user);
         return true;
       } catch (error) {
         console.log("error occured while signin from authoptions...");
@@ -60,7 +58,6 @@ export const authOptions = {
       } catch (error) {
         console.log("error occured while creating the session ");
       }
-      console.log("sesssion : ", session);
       return session;
     },
   },

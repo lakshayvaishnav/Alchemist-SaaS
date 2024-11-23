@@ -15,6 +15,31 @@ export default async function handler(req: NextRequest) {
         },
       });
       console.log("the user from server is : ", user);
+      return NextResponse.json({ user: user });
+    }
+
+    if (req.method === "POST") {
+      const { firstname, lastname, email } = await req.json();
+      try {
+        const user = await prisma.user.update({
+          select: {
+            email: true,
+            name: true,
+          },
+          data: {
+            name: `${firstname} ${lastname}`,
+            email: email,
+          },
+          where: {
+            id: session.user.id,
+          },
+        });
+
+        return NextResponse.json({message : "udpated the data successfully "});
+      } catch (error) {
+        console.log("error occured while updating the user : ", error);
+        return NextResponse.json({message: "not able to update the data"});
+      }
     }
   }
 }
