@@ -14,9 +14,9 @@ datasource db {
 }
 
 model User {
-  id        Int        @id @unique @default(autoincrement())
-  name      String
-  email     String     @unique
+  id    Int    @id @unique @default(autoincrement())
+  name  String
+  email String @unique
 }
 
 model Resource {
@@ -25,6 +25,8 @@ model Resource {
   image       String
   name        String
   category    Category
+  // Todo : future implementation
+  // link        String
 }
 
 enum Category {
@@ -33,4 +35,3 @@ enum Category {
   OPENSOURCE
   DATABASE
 }
-

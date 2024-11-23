@@ -10,38 +10,38 @@ async function handler(req: NextRequest) {
     return NextResponse.json({ message: "login marlo vaii 😭" });
   }
 
-  if (req.method === "POST") {
-    const { name, image, description, category } = await req.json();
-    console.log(
-      "name image description category :",
-      name,
-      image,
-      description,
-      category
-    );
+  // if (req.method === "POST") {
+  //   const { name, image, description, category } = await req.json();
+  //   console.log(
+  //     "name image description category :",
+  //     name,
+  //     image,
+  //     description,
+  //     category
+  //   );
 
-    try {
-      const data = await prisma.resource.create({
-        data: {
-          description: description,
-          name: name,
-          image: image,
-          category: category,
-        },
-      });
+  //   try {
+  //     const data = await prisma.resource.create({
+  //       data: {
+  //         description: description,
+  //         name: name,
+  //         image: image,
+  //         category: category,
+  //       },
+  //     });
 
-      console.log("resource created successfully: ", data);
-      return NextResponse.json({ data: data });
-    } catch (error) {
-      console.error("Error occurred while creating resource:", error);
-      return NextResponse.json({ message: "Error occurred while creating resource." }, { status: 500 });
-    }
-  }
+  //     console.log("resource created successfully: ", data);
+  //     return NextResponse.json({ data: data });
+  //   } catch (error) {
+  //     console.error("Error occurred while creating resource:", error);
+  //     return NextResponse.json({ message: "Error occurred while creating resource." }, { status: 500 });
+  //   }
+  // }
 
   if (req.method === "GET") {
     const data = await prisma.resource.findMany();
     console.log("Found all the resources: ", data);
-    return NextResponse.json({ data: data });
+    return NextResponse.json({data: data });
   }
 
   // Handle unsupported methods
