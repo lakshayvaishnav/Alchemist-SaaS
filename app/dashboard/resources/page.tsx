@@ -1,12 +1,33 @@
+"use client"
 import ResoureCard from "@/components/Ui/resoure-card";
+import { Category } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function resources() {
+  async function addResource() {
+    const response = await fetch("/api/resources", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: "react",
+        description: "demo description",
+        image: "#",
+        category: Category.BACKEND,
+      }),
+    });
+
+    // const data = await response.json();
+    console.log("data from fronend : ", response);
+  }
+
   return (
     <div className="flex  flex-1">
       <div className="p-2 md:p-10 rounded-tl-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 flex flex-col gap-2 flex-1 w-full h-full">
         <h1 className="text-3xl font-bold">Resources</h1>
+        <button onClick={()=> addResource()}>add resource</button>
 
         <div className="w-full mt-4 flex items-center justify-center">
           <div className="bg-neutral-800 py-4 px-6 gap-4 flex rounded-md">

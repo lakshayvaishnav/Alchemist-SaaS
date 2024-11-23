@@ -14,7 +14,23 @@ datasource db {
 }
 
 model User {
-  id    Int    @id @unique @default(autoincrement())
-  name  String
-  email String @unique
+  id        Int        @id @unique @default(autoincrement())
+  name      String
+  email     String     @unique
 }
+
+model Resource {
+  id          Int      @id @unique @default(autoincrement())
+  description String
+  image       String
+  name        String
+  category    Category
+}
+
+enum Category {
+  FRONTEND
+  BACKEND
+  OPENSOURCE
+  DATABASE
+}
+

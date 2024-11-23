@@ -7,14 +7,11 @@ import {
   IconSignature,
   IconTableColumn,
 } from "@tabler/icons-react";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 
 export default function profile() {
   const session = useSession();
-
-  if (!session) {
-    return <h1>Pleaase sign in bro</h1>;
-  }
+  console.log("session is : ", session);
 
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
@@ -52,6 +49,24 @@ export default function profile() {
     });
     const response = await data.json();
     console.log("the response for updating the user : ", data);
+  }
+
+  if (!session.data) {
+    return (
+      <>
+        <h1>Pleaase sign in bro</h1>;
+        <button
+          onClick={() =>
+            signIn("google", {
+              redirect: true,
+              callbackUrl: "/dashboard/profile",
+            })
+          }
+        >
+          signin
+        </button>
+      </>
+    );
   }
 
   return (
@@ -97,7 +112,10 @@ export default function profile() {
               />
             </div>
           </div>
-          <button onClick={()=> updateData()} className="px-8 py-0.5  border-2 border-black hover:scale-105 dark:border-white uppercase bg-white text-black transition duration-200 text-sm shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)] ">
+          <button
+            onClick={() => updateData()}
+            className="px-8 py-0.5  border-2 border-black hover:scale-105 dark:border-white uppercase bg-white text-black transition duration-200 text-sm shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)] "
+          >
             Update Settings
           </button>
         </div>
